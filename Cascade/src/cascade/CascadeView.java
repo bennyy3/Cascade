@@ -61,7 +61,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			combo.setOnAction(this); //handle method setup
 			
 			label = new Label();
-			//TODO label.setText(myModel.getFeedback());
+			label.setText(myModel.getGameMessage());
 			grid = new GridPane();
 			buttonGrid = new Button[10][10]; //10x10 will be max size of grid
 			for(int row = 0; row < 9; row++) {
