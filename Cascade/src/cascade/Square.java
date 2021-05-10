@@ -8,13 +8,19 @@ public class Square {
 	private boolean directions[] = {false, false, false, false};
 	Random rand = new Random();
 	
+	Square() {
+		this.owner = Player.EMPTY;
+		this.priorityNum = rand.nextInt(10);
+		this.directions = generateDirections();
+	}
+	
 	Square(Player owner) {
 		this.owner = owner;
 		this.priorityNum = rand.nextInt(10);
 		this.directions = generateDirections();
 	}
 	
-	public void rotatecw() {
+	public void rotateCW() {
 		boolean[] newDirections = {false, false, false, false};
 		if(directions[0]) newDirections[2] = true;
 		if(directions[1]) newDirections[3] = true;
@@ -22,7 +28,7 @@ public class Square {
 		if(directions[3]) newDirections[0] = true;
 		directions = newDirections;
 	}
-	public void rotateccw() {
+	public void rotateCCW() {
 		boolean[] newDirections = {false, false, false, false};
 		if(directions[0]) newDirections[3] = true;
 		if(directions[1]) newDirections[2] = true;
@@ -37,6 +43,10 @@ public class Square {
 	
 	public Player getOwner() {
 		return owner;
+	}
+	
+	public boolean[] getDirections() {
+		return directions;
 	}
 	
 	public void setOwner(Player owner) {
