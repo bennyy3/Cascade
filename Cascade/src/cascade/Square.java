@@ -1,5 +1,5 @@
 package cascade;
 
-public class Square {
+public class Square { // hi ben
 
 }
