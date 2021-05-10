@@ -53,7 +53,6 @@ public class CascadeModel {
 		flipTurn();
 		cascade(row, col);
 	}
-	
 	public void flipTurn() {
 		if(currentTurn == Player.PLAYER1) currentTurn = Player.PLAYER2;
 		else if(currentTurn == Player.PLAYER2) currentTurn = Player.PLAYER1;
