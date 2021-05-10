@@ -1,5 +1,5 @@
 package cascade;
 
-public enum PlayerEnum {
+public enum Player {
 	PLAYER1, PLAYER2, EMPTY
 }
