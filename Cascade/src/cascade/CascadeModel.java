@@ -11,7 +11,18 @@ public class CascadeModel {
 	Player currentTurn = Player.PLAYER1;
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+	private int countSpaces(Player player) {
+		int playerSpaces = 0; //count of how many spaces are owned
+		for(int row = 0; row < gameBoard.length; row++) {
+			for(int col = 0; col < gameBoard[0].length; col++) {
+				if(gameBoard[row][col].getOwner() == player) playerSpaces++;
+			}
+		}
+		return playerSpaces;
+	}
+	
 	public boolean isGameOver() {
+		/**
 		int p1Spaces = 0;
 		int p2Spaces = 0;
 		for(int r = 0; r < gameBoard.length; r++) {
@@ -20,6 +31,9 @@ public class CascadeModel {
 				else if(gameBoard[r][c].getOwner() == Player.PLAYER2) p2Spaces++;
 			}
 		}
+		*/
+		int p1Spaces = countSpaces(Player.PLAYER1);
+		int p2Spaces = countSpaces(Player.PLAYER2);
 		if(p1Spaces + p2Spaces == boardSize*boardSize) {
 			if(p1Spaces > p2Spaces) currentTurn = Player.PLAYER1;
 			else if(p2Spaces > p1Spaces) currentTurn = Player.PLAYER2;
@@ -27,6 +41,19 @@ public class CascadeModel {
 			return true;
 		}
 		return false;
+	}
+	
+	public String getGameMessage() {
+		String temp = "";
+		if(currentTurn == Player.PLAYER1) {
+			temp += "Player 1's Turn\n";
+		}else if(currentTurn == Player.PLAYER2){
+			temp += "Player 2's Turn\n";
+		}else {
+			temp += "Game Over!\n";
+		}
+		temp += "Score:\nPlayer 1: " + countSpaces(Player.PLAYER1) + "\nPlayer 2: " + countSpaces(Player.PLAYER2);
+		return temp;
 	}
 	
 	public void updateBoardSize(int boardSize) {
@@ -120,5 +147,7 @@ public class CascadeModel {
 		}
 		return;
 	}
+	
+	
 	
 }

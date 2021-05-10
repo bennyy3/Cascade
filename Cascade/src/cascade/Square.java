@@ -20,7 +20,7 @@ public class Square {
 		this.directions = generateDirections();
 	}
 	
-	public void rotateCW() {
+	private void rotateCW() {
 		boolean[] newDirections = {false, false, false, false};
 		if(directions[0]) newDirections[2] = true;
 		if(directions[1]) newDirections[3] = true;
@@ -28,7 +28,7 @@ public class Square {
 		if(directions[3]) newDirections[0] = true;
 		directions = newDirections;
 	}
-	public void rotateCCW() {
+	private void rotateCCW() {
 		boolean[] newDirections = {false, false, false, false};
 		if(directions[0]) newDirections[3] = true;
 		if(directions[1]) newDirections[2] = true;
@@ -49,15 +49,15 @@ public class Square {
 		return directions;
 	}
 	
-	public void setOwner(Player owner) {
+	private void setOwner(Player owner) {
 		this.owner = owner;
 	}
 	
-	public void setPriorityNum(int priorityNum) {
+	private void setPriorityNum(int priorityNum) {
 		this.priorityNum = priorityNum;
 	}
 	
-	public void flip() {
+	private void flip() {
 		if(owner == Player.PLAYER1) owner = Player.PLAYER2;
 		else if(owner == Player.PLAYER2) owner = Player.PLAYER1;
 	}
