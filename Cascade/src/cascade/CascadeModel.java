@@ -1,10 +1,15 @@
 package cascade;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+
 public class CascadeModel {
 	private Square[][] gameBoard;
 	private int boardSize;
 	private Square nextSquare;
 	Player currentTurn = Player.PLAYER1;
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	public boolean isGameOver() {
 		int p1Spaces = 0;
@@ -36,6 +41,15 @@ public class CascadeModel {
 		updateBoardSize(boardSize);
 	}
 	
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
+	}
+	
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.removePropertyChangeListener(listener);
+	}
+
+	
 	public void rotateNextCW() {
 		nextSquare.rotateCW();
 	}
@@ -53,6 +67,7 @@ public class CascadeModel {
 		flipTurn();
 		cascade(row, col);
 	}
+	
 	public void flipTurn() {
 		if(currentTurn == Player.PLAYER1) currentTurn = Player.PLAYER2;
 		else if(currentTurn == Player.PLAYER2) currentTurn = Player.PLAYER1;
