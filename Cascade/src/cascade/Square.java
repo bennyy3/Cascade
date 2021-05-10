@@ -1,5 +1,63 @@
 package cascade;
 
-public class Square {
+import java.util.Random;
 
+public class Square {
+	private Player owner;
+	private int priorityNum;
+	private boolean directions[] = {false, false, false, false};
+	Random rand = new Random();
+	
+	Square(Player owner) {
+		this.owner = owner;
+		this.priorityNum = rand.nextInt(10);
+		this.directions = generateDirections();
+	}
+	
+	public void rotatecw() {
+		boolean[] newDirections = {false, false, false, false};
+		if(directions[0]) newDirections[2] = true;
+		if(directions[1]) newDirections[3] = true;
+		if(directions[2]) newDirections[1] = true;
+		if(directions[3]) newDirections[0] = true;
+		directions = newDirections;
+	}
+	public void rotateccw() {
+		boolean[] newDirections = {false, false, false, false};
+		if(directions[0]) newDirections[3] = true;
+		if(directions[1]) newDirections[2] = true;
+		if(directions[2]) newDirections[0] = true;
+		if(directions[3]) newDirections[1] = true;
+		directions = newDirections;
+	}
+	
+	public int getNumber() {
+		return priorityNum;
+	}
+	
+	public Player getOwner() {
+		return owner;
+	}
+	
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+	
+	public void setPriorityNum(int priorityNum) {
+		this.priorityNum = priorityNum;
+	}
+	
+	public void flip() {
+		if(owner == Player.PLAYER1) owner = Player.PLAYER2;
+		else if(owner == Player.PLAYER2) owner = Player.PLAYER1;
+	}
+	
+	private boolean[] generateDirections() {
+		boolean[] randomDirections = {false, false, false, false};
+		for(int i = 0; i < 4; i++) {
+			randomDirections[i] = rand.nextBoolean();
+		}
+		return randomDirections;
+	}
+	
 }
