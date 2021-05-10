@@ -10,11 +10,22 @@ public class CascadeModel {
 	private Square nextSquare;
 	Player currentTurn = Player.PLAYER1;
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+	
+	/**
+	 * Constructor for CascadeModel
+	 */
+	CascadeModel() {
+		this.boardSize = 3;
+		gameBoard = new Square[10][10];
+		updateBoardSize(boardSize);
+		this.currentTurn = Player.PLAYER1;
+		this.nextSquare = new Square(Player.PLAYER1); 
+	}
+	
 	private int countSpaces(Player player) {
 		int playerSpaces = 0; //count of how many spaces are owned
-		for(int row = 0; row < gameBoard.length; row++) {
-			for(int col = 0; col < gameBoard[0].length; col++) {
+		for(int row = 0; row < boardSize; row++) {
+			for(int col = 0; col < boardSize; col++) {
 				if(gameBoard[row][col].getOwner() == player) playerSpaces++;
 			}
 		}
@@ -147,7 +158,5 @@ public class CascadeModel {
 		}
 		return;
 	}
-	
-	
 	
 }

@@ -47,7 +47,8 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	public void start(Stage primaryStage) {
 		try {
 			myModel = new CascadeModel();
-			//TODO previewSquare = new Square();
+			previewSquare = new Square();
+			Button previewSquareButton = new Button();
 			
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,400,400);
@@ -88,7 +89,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			topPane.setTop(rotateCW);
 			topPane.setBottom(rotateCCW);
 			topPane.setLeft(label);
-			//TODO setCenter(previewSquare);
+			topPane.setCenter(previewSquareButton);
 			
 			root.setBottom(clearButton);
 			root.setLeft(combo);
@@ -112,7 +113,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
 				if(event.getSource() == buttonGrid[row][col]) {
-					//TODO myModel.cascade(row, col);
+					myModel.place(row, col);
 				}
 			}
 		}
@@ -121,22 +122,22 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		if(event.getSource() == combo) {
 			ComboBox<Integer> button = (ComboBox<Integer>) event.getSource(); //create a temporary copy
 			Integer buttonPressed = (Integer) button.getValue(); //[0-9] from the combo box
-			//TODO myModel.setSize(buttonPressed);
+			myModel.updateBoardSize(buttonPressed);
 		}
 		
 		//Check if it's the reset button
 		if(event.getSource() == clearButton) {
-			//TODO myModel.clear();
+			myModel.reset();
 		}
 		
 		//Check if it's the rotate clockwise
 		if(event.getSource() == rotateCW) {
-			//TODO previewSquare.rotatecw();
+			previewSquare.rotateCW();
 		}
 		
 		//Check if it's the rotate counter clockwise
 		if(event.getSource() == rotateCCW) {
-			//TODO previewSquare.rotateccw();
+			previewSquare.rotateCCW();
 		}
 		
 	}
