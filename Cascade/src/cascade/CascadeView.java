@@ -36,11 +36,19 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	
 	private Button[][] buttonGrid;
 	
+	private Button clearButton;
+	
+	private Button rotateCW;
+	private Button rotateCCW;
+	
 	
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			myModel = new CascadeModel();
+			//TODO previewSquare = new Square();
+			
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,400,400);
 			root.setPrefSize(400, 400);
@@ -61,15 +69,31 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 					buttonGrid[row][col] = new Button();
 					buttonGrid[row][col].textProperty().addListener(this);
 					buttonGrid[row][col].setPrefSize(100, 100);
+					buttonGrid[row][col].setOnAction(this);
 				}
 			}
 			setGrid(3);
-			Button clearButton = new Button("Clear!");
+			clearButton = new Button("Clear!");
 			clearButton.setOnAction(this);
+			
+			//initialize rotate buttons
+			rotateCW = new Button();
+			rotateCW.setOnAction(this);
+			rotateCW.setText("Rotate Clockwise");
+			rotateCCW = new Button();
+			rotateCCW.setOnAction(this);
+			rotateCCW.setText("rotate Counter Clockwise");
+			
+			BorderPane topPane = new BorderPane();
+			topPane.setTop(rotateCW);
+			topPane.setBottom(rotateCCW);
+			topPane.setLeft(label);
+			//TODO setCenter(previewSquare);
+			
 			root.setBottom(clearButton);
 			root.setLeft(combo);
 			root.setCenter(grid);
-			root.setTop(label);
+			root.setTop(topPane);
 			
 			
 			primaryStage.setScene(scene);
@@ -83,8 +107,37 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	}
 	
 	@Override
-	public void handle(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void handle(ActionEvent event) {
+		//Check if it's a grid button
+		for(int row = 0; row < 10; row++) {
+			for(int col = 0; col < 10; col++) {
+				if(event.getSource() == buttonGrid[row][col]) {
+					//TODO myModel.cascade(row, col);
+				}
+			}
+		}
+		
+		//Check if it's a comboBox
+		if(event.getSource() == combo) {
+			ComboBox<Integer> button = (ComboBox<Integer>) event.getSource(); //create a temporary copy
+			Integer buttonPressed = (Integer) button.getValue(); //[0-9] from the combo box
+			//TODO myModel.setSize(buttonPressed);
+		}
+		
+		//Check if it's the reset button
+		if(event.getSource() == clearButton) {
+			//TODO myModel.clear();
+		}
+		
+		//Check if it's the rotate clockwise
+		if(event.getSource() == rotateCW) {
+			//TODO previewSquare.rotatecw();
+		}
+		
+		//Check if it's the rotate counter clockwise
+		if(event.getSource() == rotateCCW) {
+			//TODO previewSquare.rotateccw();
+		}
 		
 	}
 	@Override
