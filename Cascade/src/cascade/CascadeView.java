@@ -1,12 +1,9 @@
+package cascade;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-package cascade;
 
-
-
-package javaFXTest;
 
 /**
  * Should spawn a blank window to verify that JavaFX is working
