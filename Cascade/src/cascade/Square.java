@@ -14,8 +14,7 @@ public class Square {
 	
 	public Square() {
 		this.owner = Player.EMPTY;
-		this.priorityNum = rand.nextInt(10);
-		this.directions = generateDirections();
+		this.priorityNum = -1;
 	}
 	
 	public Square(Player owner) {

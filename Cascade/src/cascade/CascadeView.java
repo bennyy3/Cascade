@@ -39,6 +39,8 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	private Button rotateCW;
 	private Button rotateCCW;
 	
+	private Button previewSquareButton;
+	
 	
 	
 	@Override
@@ -46,7 +48,8 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		try {
 			myModel = new CascadeModel();
 			myModel.addPropertyChangeListener(this);
-			Button previewSquareButton = new Button();
+			previewSquareButton = new Button();
+			previewSquareButton.setPrefSize(100, 100);
 			
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,400,400);
@@ -62,6 +65,8 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			label = new Label();
 			label.setText(myModel.getGameMessage());
 			grid = new GridPane();
+			grid.setHgap(5);
+			grid.setVgap(5);
 			buttonGrid = new Button[10][10]; //10x10 will be max size of grid
 			for(int row = 0; row < 9; row++) {
 				for(int col = 0; col < 9; col++) {
@@ -73,6 +78,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			}
 			setGrid(3);
 			updateGrid();
+			updatePreviewSquare();
 			clearButton = new Button("Clear!");
 			clearButton.setOnAction(this);
 			
@@ -82,7 +88,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			rotateCW.setText("Rotate Clockwise");
 			rotateCCW = new Button();
 			rotateCCW.setOnAction(this);
-			rotateCCW.setText("rotate Counter Clockwise");
+			rotateCCW.setText("Rotate Counter Clockwise");
 			
 			BorderPane topPane = new BorderPane();
 			topPane.setTop(rotateCW);
@@ -139,8 +145,6 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			myModel.rotateNextCCW();
 		}
 		
-		label.setText(myModel.getGameMessage());
-		
 	}
 	@Override
 	public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
@@ -151,17 +155,32 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName().equals("size")) {
 			setGrid(myModel.getSize());
+			updateGrid();
 		}
 		if(evt.getPropertyName().equals("placed")) {
 			updateGrid();
 		}
-		
+		label.setText(myModel.getGameMessage());
+		updatePreviewSquare();
+	}
+	
+	private void updatePreviewSquare() {
+		Square tempSquare = myModel.getPreviewSquare();
+		previewSquareButton.setText(buttonArt(tempSquare));
+		if(tempSquare.getOwner() == Player.PLAYER1) {
+			previewSquareButton.setStyle("-fx-background-color: #d8bfd8");
+		}else if(tempSquare.getOwner() == Player.PLAYER2) {
+			previewSquareButton.setStyle("-fx-background-color: #ff6984");
+		}else {
+			previewSquareButton.setStyle("-fx-background-color: #e6ecf2");
+		}
 	}
 	
 	private void updateGrid() {
 		for(int row = 0; row < myModel.getSize(); row++) {
 			for(int col = 0; col < myModel.getSize(); col++) {
 				Square tempSquare = myModel.getSquare(row, col);
+				buttonGrid[row][col].setText(buttonArt(tempSquare));
 				if(tempSquare.getOwner() == Player.PLAYER1) {
 					buttonGrid[row][col].setStyle("-fx-background-color: #d8bfd8");
 				}else if(tempSquare.getOwner() == Player.PLAYER2) {
@@ -171,6 +190,27 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 				}
 			}
 		}
+	}
+	
+	private String buttonArt(Square tempSquare) {
+		String north = Character.toString((char) 24);
+		String south = Character.toString((char) 25);
+		String east = Character.toString((char) 26);
+		String west = Character.toString((char) 27);
+		String number = "" + tempSquare.getNumber();
+		boolean[] directions = tempSquare.getDirections();
+		if(directions[0] == false) north = "";
+		if(directions[1] == false) south = "";
+		if(directions[2] == false) east = "";
+		if(directions[3] == false) west = "";
+		
+		if(tempSquare.getNumber() == -1) {
+			number = "";
+		}
+		
+		return "      " + north + "\n"
+			+ west + "     " + number + "     " + east + "\n" +
+		"      " + south;
 	}
 	
 	/**

@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 public class CascadeModel {
 	private Square[][] gameBoard;
 	private int boardSize;
-	private Square nextSquare;
+	private Square previewSquare;
 	Player currentTurn = Player.PLAYER1;
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
@@ -19,7 +19,7 @@ public class CascadeModel {
 		gameBoard = new Square[10][10];
 		updateBoardSize(boardSize);
 		this.currentTurn = Player.PLAYER1;
-		this.nextSquare = new Square(Player.PLAYER1); 
+		this.previewSquare = new Square(Player.PLAYER1); 
 	}
 	
 	private int countSpaces(Player player) {
@@ -92,12 +92,12 @@ public class CascadeModel {
 
 	
 	public void rotateNextCW() {
-		nextSquare.rotateCW();
+		previewSquare.rotateCW();
 		pcs.firePropertyChange("rotate", null, null);
 	}
 	
 	public void rotateNextCCW() {
-		nextSquare.rotateCCW();
+		previewSquare.rotateCCW();
 		pcs.firePropertyChange("rotate", null, null);
 	}
 	
@@ -105,9 +105,9 @@ public class CascadeModel {
 		if(gameBoard[row][col].getOwner() != Player.EMPTY) {
 			throw new IllegalArgumentException("This space cannot be taken because it is already occupied.");
 		}
-		gameBoard[row][col] = nextSquare;
+		gameBoard[row][col] = previewSquare;
 		flipTurn();
-		nextSquare = new Square(currentTurn);
+		previewSquare = new Square(currentTurn);
 		cascade(row, col);
 		pcs.firePropertyChange("placed", null, null);
 	}
@@ -118,6 +118,10 @@ public class CascadeModel {
 	
 	public Square getSquare(int row, int col) {
 		return gameBoard[row][col];
+	}
+	
+	public Square getPreviewSquare() {
+		return this.previewSquare;
 	}
 	
 	public void flipTurn() {
@@ -158,12 +162,12 @@ public class CascadeModel {
 				Square attacker = gameBoard[row][col];
 				Square defender = gameBoard[newRow][newCol];
 				boolean defenderArrows[] = defender.getDirections();
-				if(defenderArrows[defendDir] && attacker.getNumber() > defender.getNumber()) {
+				if(!defenderArrows[defendDir]) {
+					defender.flip();
+					cascade(newRow, newCol);
+				} else if(attacker.getNumber() > defender.getNumber()) {
 					if(defender.getOwner() != attacker.getOwner()) {
 						if(defender.getOwner() != Player.EMPTY) {
-							defender.flip();
-							cascade(newRow, newCol);
-						} else if(!defenderArrows[defendDir]) {
 							defender.flip();
 							cascade(newRow, newCol);
 						}
