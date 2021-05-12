@@ -73,10 +73,13 @@ public class CascadeModel {
 				gameBoard[r][c] = new Square();
 			}
 		}
+		this.boardSize = boardSize;
+		this.pcs.firePropertyChange("size", null, null);
 	}
 	
 	public void reset() {
 		updateBoardSize(boardSize);
+		currentTurn = Player.PLAYER1;
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -104,6 +107,15 @@ public class CascadeModel {
 		nextSquare = new Square();
 		flipTurn();
 		cascade(row, col);
+		pcs.firePropertyChange("placed", null, null);
+	}
+	
+	public int getSize() {
+		return this.boardSize;
+	}
+	
+	public Square getSquare(int row, int col) {
+		return gameBoard[row][col];
 	}
 	
 	public void flipTurn() {

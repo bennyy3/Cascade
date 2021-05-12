@@ -32,8 +32,6 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	
 	private GridPane grid;
 	
-	private Square previewSquare;
-	
 	private Button[][] buttonGrid;
 	
 	private Button clearButton;
@@ -47,7 +45,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	public void start(Stage primaryStage) {
 		try {
 			myModel = new CascadeModel();
-			previewSquare = new Square();
+			myModel.addPropertyChangeListener(this);
 			Button previewSquareButton = new Button();
 			
 			BorderPane root = new BorderPane();
@@ -68,7 +66,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			for(int row = 0; row < 9; row++) {
 				for(int col = 0; col < 9; col++) {
 					buttonGrid[row][col] = new Button();
-					buttonGrid[row][col].textProperty().addListener(this);
+					//buttonGrid[row][col].textProperty().addListener(this);
 					buttonGrid[row][col].setPrefSize(100, 100);
 					buttonGrid[row][col].setOnAction(this);
 				}
@@ -132,13 +130,15 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		
 		//Check if it's the rotate clockwise
 		if(event.getSource() == rotateCW) {
-			previewSquare.rotateCW();
+			myModel.rotateNextCW();
 		}
 		
 		//Check if it's the rotate counter clockwise
 		if(event.getSource() == rotateCCW) {
-			previewSquare.rotateCCW();
+			myModel.rotateNextCCW();
 		}
+		
+		label.setText(myModel.getGameMessage());
 		
 	}
 	@Override
@@ -148,8 +148,27 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	}
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
+		if(evt.getPropertyName().equals("size")) {
+			setGrid(myModel.getSize());
+		}
+		if(evt.getPropertyName().equals("placed")) {
+			
+		}
 		
+	}
+	
+	private void updateGrid() {
+		for(int row = 0; row < myModel.getSize(); row++) {
+			for(int col = 0; col < myModel.getSize(); row++) {
+				Square tempSquare = myModel.getSquare(row, col);
+				if(tempSquare.getOwner() == Player.PLAYER1) {
+					buttonGrid[row][col].setStyle("-fx-background-color: #d8bfd8; ");
+				}
+				if(tempSquare.getOwner() == Player.PLAYER2) {
+					buttonGrid[row][col].setStyle("-fx-background-color: #ff0000; ");
+				}
+			}
+		}
 	}
 	
 	/**
