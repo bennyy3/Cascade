@@ -93,10 +93,12 @@ public class CascadeModel {
 	
 	public void rotateNextCW() {
 		nextSquare.rotateCW();
+		pcs.firePropertyChange("rotate", null, null);
 	}
 	
 	public void rotateNextCCW() {
 		nextSquare.rotateCCW();
+		pcs.firePropertyChange("rotate", null, null);
 	}
 	
 	public void place(int row, int col) {
