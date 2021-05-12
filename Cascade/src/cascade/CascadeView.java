@@ -118,6 +118,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
 				if(event.getSource() == buttonGrid[row][col]) {
+					
 					myModel.place(row, col);
 				}
 			}
@@ -193,10 +194,13 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	}
 	
 	private String buttonArt(Square tempSquare) {
-		String north = Character.toString((char) 24);
-		String south = Character.toString((char) 25);
-		String east = Character.toString((char) 26);
-		String west = Character.toString((char) 27);
+		if(tempSquare.getOwner() == Player.EMPTY) {
+			return "";
+		}
+		String north = "^";
+		String south = "\\/";
+		String east = ">";
+		String west = "<";
 		String number = "" + tempSquare.getNumber();
 		boolean[] directions = tempSquare.getDirections();
 		if(directions[0] == false) north = "";

@@ -52,7 +52,7 @@ public class Square {
 		return directions;
 	}
 	
-	private void setOwner(Player owner) {
+	public void setOwner(Player owner) {
 		this.owner = owner;
 	}
 	
