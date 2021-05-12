@@ -72,6 +72,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 				}
 			}
 			setGrid(3);
+			updateGrid();
 			clearButton = new Button("Clear!");
 			clearButton.setOnAction(this);
 			
@@ -152,7 +153,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			setGrid(myModel.getSize());
 		}
 		if(evt.getPropertyName().equals("placed")) {
-			
+			updateGrid();
 		}
 		
 	}
@@ -163,9 +164,10 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 				Square tempSquare = myModel.getSquare(row, col);
 				if(tempSquare.getOwner() == Player.PLAYER1) {
 					buttonGrid[row][col].setStyle("-fx-background-color: #d8bfd8; ");
-				}
-				if(tempSquare.getOwner() == Player.PLAYER2) {
-					buttonGrid[row][col].setStyle("-fx-background-color: #ff0000; ");
+				}else if(tempSquare.getOwner() == Player.PLAYER2) {
+					buttonGrid[row][col].setStyle("-fx-background-color: #ff6984; ");
+				}else {
+					buttonGrid[row][col].setStyle("-fx-background-color: #e6ecf2; ");
 				}
 			}
 		}
