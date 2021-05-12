@@ -106,8 +106,8 @@ public class CascadeModel {
 			throw new IllegalArgumentException("This space cannot be taken because it is already occupied.");
 		}
 		gameBoard[row][col] = nextSquare;
-		nextSquare = new Square();
 		flipTurn();
+		nextSquare = new Square(currentTurn);
 		cascade(row, col);
 		pcs.firePropertyChange("placed", null, null);
 	}
@@ -152,6 +152,7 @@ public class CascadeModel {
 			}
 			
 			if(newRow < 0 || newRow >= boardSize) break;
+			if(newCol < 0 || newCol >= boardSize) break;
 			
 			if(directions[dir]) {
 				Square attacker = gameBoard[row][col];

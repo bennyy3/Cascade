@@ -160,14 +160,14 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	
 	private void updateGrid() {
 		for(int row = 0; row < myModel.getSize(); row++) {
-			for(int col = 0; col < myModel.getSize(); row++) {
+			for(int col = 0; col < myModel.getSize(); col++) {
 				Square tempSquare = myModel.getSquare(row, col);
 				if(tempSquare.getOwner() == Player.PLAYER1) {
-					buttonGrid[row][col].setStyle("-fx-background-color: #d8bfd8; ");
+					buttonGrid[row][col].setStyle("-fx-background-color: #d8bfd8");
 				}else if(tempSquare.getOwner() == Player.PLAYER2) {
-					buttonGrid[row][col].setStyle("-fx-background-color: #ff6984; ");
+					buttonGrid[row][col].setStyle("-fx-background-color: #ff6984");
 				}else {
-					buttonGrid[row][col].setStyle("-fx-background-color: #e6ecf2; ");
+					buttonGrid[row][col].setStyle("-fx-background-color: #e6ecf2");
 				}
 			}
 		}
