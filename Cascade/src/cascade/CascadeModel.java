@@ -81,6 +81,8 @@ public class CascadeModel {
 			}
 		}
 		this.boardSize = boardSize;
+		currentTurn = Player.PLAYER1;
+		previewSquare = new Square(currentTurn);
 		this.pcs.firePropertyChange("size", null, null);
 	}
 

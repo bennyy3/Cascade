@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 
 
-public class CascadeView extends Application implements PropertyChangeListener, ChangeListener<String>, EventHandler<ActionEvent> {
+public class CascadeView extends Application implements PropertyChangeListener, EventHandler<ActionEvent> {
 	
 	private CascadeModel myModel;
 	
@@ -115,7 +115,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	@Override
 	public void handle(ActionEvent event) {
 		//Check if it's a grid button
-		for(int row = 0; row < 10; row++) {
+		for(int row = 0; row < 10; row++) { //maybe switch to actual size
 			for(int col = 0; col < 10; col++) {
 				if(event.getSource() == buttonGrid[row][col]) {
 					
@@ -147,11 +147,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		}
 		
 	}
-	@Override
-	public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName().equals("size")) {
