@@ -88,7 +88,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 					buttonGrid[row][col].setOnAction(this);
 				}
 			}
-			setGrid(3);
+			setGrid(5);
 			updateGrid();
 			updatePreviewSquare();
 			clearButton = new Button("Clear!");
