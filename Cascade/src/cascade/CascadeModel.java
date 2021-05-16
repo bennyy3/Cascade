@@ -14,7 +14,7 @@ public class CascadeModel {
 	 * Constructor for CascadeModel
 	 */
 	CascadeModel() {
-		this.boardSize = 3;
+		this.boardSize = 5;
 		gameBoard = new Square[10][10];
 		updateBoardSize(boardSize);
 		this.currentTurn = Player.PLAYER1;

@@ -1,3 +1,10 @@
+/**
+ * @author Ben Anderson
+ * @author Isacc Cubas
+ * @version Spring 2021
+ * 
+ * View Class of Cascade project
+ */
 package cascade;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -16,29 +23,34 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 
-/**
- * Should spawn a blank window to verify that JavaFX is working
- */
-
-
 
 public class CascadeView extends Application implements PropertyChangeListener, EventHandler<ActionEvent> {
 	
+	/** the game's model */
 	private CascadeModel myModel;
 	
+	/** a label that will display game text */
 	private Label label;
 	
+	/** a combo box to choose the size of the game board */
 	private ComboBox<Integer> combo;
 	
+	/** a grid that holds each game square */
 	private GridPane grid;
 	
+	/** the buttons that get assigned to each grid location */
 	private Button[][] buttonGrid;
 	
+	/** a button that when pressed, will clear and restart the game */
 	private Button clearButton;
 	
+	/** a button that when pressed will rotate a preview square clockwise */
 	private Button rotateCW;
+	
+	/** a button that when pressed will rotate a preview square counter clockwise*/
 	private Button rotateCCW;
 	
+	/** a button that does nothing when pressed, but will display the preview square*/
 	private Button previewSquareButton;
 	
 	
