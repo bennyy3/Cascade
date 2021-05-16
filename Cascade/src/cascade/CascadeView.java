@@ -1,6 +1,6 @@
 /**
  * @author Ben Anderson
- * @author Isacc Cubas
+ * @author Isacc Kubas
  * @version Spring 2021
  * 
  * View Class of Cascade project
@@ -77,19 +77,18 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			label = new Label();
 			label.setText(myModel.getGameMessage());
 			grid = new GridPane();
-			grid.setHgap(5);
+			grid.setHgap(5); //Adding space between spaces
 			grid.setVgap(5);
 			buttonGrid = new Button[10][10]; //10x10 will be max size of grid
-			for(int row = 0; row < 9; row++) {
+			for(int row = 0; row < 9; row++) { //loop through the grid and initialize each button
 				for(int col = 0; col < 9; col++) {
 					buttonGrid[row][col] = new Button();
-					//buttonGrid[row][col].textProperty().addListener(this);
 					buttonGrid[row][col].setPrefSize(100, 100);
 					buttonGrid[row][col].setOnAction(this);
 				}
 			}
-			setGrid(5);
-			updateGrid();
+			setGrid(5); //initialize grid size to 5
+			updateGrid(); //draw board
 			updatePreviewSquare();
 			clearButton = new Button("Clear!");
 			clearButton.setOnAction(this);
@@ -120,6 +119,11 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Method to launch JavaFX
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -127,11 +131,11 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	@Override
 	public void handle(ActionEvent event) {
 		//Check if it's a grid button
+		//Loop and check every button grid button
 		for(int row = 0; row < 10; row++) { //maybe switch to actual size
 			for(int col = 0; col < 10; col++) {
 				if(event.getSource() == buttonGrid[row][col]) {
-					
-					myModel.place(row, col);
+					myModel.place(row, col); //the user wants to place their square
 				}
 			}
 		}
@@ -140,27 +144,30 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		if(event.getSource() == combo) {
 			ComboBox<Integer> button = (ComboBox<Integer>) event.getSource(); //create a temporary copy
 			Integer buttonPressed = (Integer) button.getValue(); //[0-9] from the combo box
-			myModel.updateBoardSize(buttonPressed);
+			myModel.updateBoardSize(buttonPressed); //the user wants to update the board size
 		}
 		
 		//Check if it's the reset button
 		if(event.getSource() == clearButton) {
-			myModel.reset();
+			myModel.reset(); //the user wants to clear the board
 		}
 		
 		//Check if it's the rotate clockwise
 		if(event.getSource() == rotateCW) {
-			myModel.rotateNextCW();
+			myModel.rotateNextCW(); //the user wants to rotate
 		}
 		
 		//Check if it's the rotate counter clockwise
 		if(event.getSource() == rotateCCW) {
-			myModel.rotateNextCCW();
+			myModel.rotateNextCCW(); //the user wants to rotate
 		}
 		
 	}
 	
 	@Override
+	/**
+	 * The model has sent a message telling the view to change
+	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName().equals("size")) {
 			setGrid(myModel.getSize());
@@ -169,12 +176,15 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		if(evt.getPropertyName().equals("placed")) {
 			updateGrid();
 		}
-		label.setText(myModel.getGameMessage());
-		updatePreviewSquare();
+		label.setText(myModel.getGameMessage()); //update the message every time
+		updatePreviewSquare(); //update the preview square every time
 	}
 	
+	/**
+	 * a method that will update the preview square
+	 */
 	private void updatePreviewSquare() {
-		Square tempSquare = myModel.getPreviewSquare();
+		Square tempSquare = myModel.getPreviewSquare(); //ask for a copy of the preview square from the model
 		previewSquareButton.setText(buttonArt(tempSquare));
 		if(tempSquare.getOwner() == Player.PLAYER1) {
 			previewSquareButton.setStyle("-fx-background-color: #d8bfd8");
@@ -185,10 +195,13 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		}
 	}
 	
+	/**
+	 * a method that will update each square in the grid
+	 */
 	private void updateGrid() {
-		for(int row = 0; row < myModel.getSize(); row++) {
+		for(int row = 0; row < myModel.getSize(); row++) { //loop through each square
 			for(int col = 0; col < myModel.getSize(); col++) {
-				Square tempSquare = myModel.getSquare(row, col);
+				Square tempSquare = myModel.getSquare(row, col); //ask for a copy of the current square from the model
 				buttonGrid[row][col].setText(buttonArt(tempSquare));
 				if(tempSquare.getOwner() == Player.PLAYER1) {
 					buttonGrid[row][col].setStyle("-fx-background-color: #d8bfd8");
@@ -201,6 +214,11 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		}
 	}
 	
+	/**
+	 * @param tempSquare
+	 * @return a string containing the button art
+	 * this method will create a visual based on the squares directions, and priority number
+	 */
 	private String buttonArt(Square tempSquare) {
 		if(tempSquare.getOwner() == Player.EMPTY) {
 			return "";
