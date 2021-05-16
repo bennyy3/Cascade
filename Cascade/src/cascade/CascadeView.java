@@ -15,6 +15,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -53,9 +55,14 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	/** a button that does nothing when pressed, but will display the preview square*/
 	private Button previewSquareButton;
 	
+	private Alert alert;
+	
 	
 	
 	@Override
+	/**
+	 * the starting method that will initialize the view
+	 */
 	public void start(Stage primaryStage) {
 		try {
 			myModel = new CascadeModel();
@@ -111,6 +118,9 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			root.setLeft(combo);
 			root.setCenter(grid);
 			root.setTop(topPane);
+			
+			alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Oops you messed up!");
 			
 			
 			primaryStage.setScene(scene);
@@ -175,6 +185,14 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 		}
 		if(evt.getPropertyName().equals("placed")) {
 			updateGrid();
+		}
+		if(evt.getPropertyName().equals("occupied")) {
+			alert.setContentText("This space is already occupied");
+			alert.showAndWait();
+		}
+		if(evt.getPropertyName().equals("gameOver")) {
+			alert.setContentText("The game is over! Select a new size or clear the board.");
+			alert.showAndWait();
 		}
 		label.setText(myModel.getGameMessage()); //update the message every time
 		updatePreviewSquare(); //update the preview square every time

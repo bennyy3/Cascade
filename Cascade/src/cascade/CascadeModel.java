@@ -111,7 +111,12 @@ public class CascadeModel {
 	}
 
 	public void place(int row, int col) {
-		if (gameBoard[row][col].getOwner() != Player.EMPTY) {
+		//check to see if the game is over
+		if(isGameOver()) {
+			pcs.firePropertyChange("gameOver", null, null);
+			throw new IllegalArgumentException("game is over");
+		}else if (gameBoard[row][col].getOwner() != Player.EMPTY) { //check if the square is open
+			pcs.firePropertyChange("occupied", null, null);
 			throw new IllegalArgumentException("This space cannot be taken because it is already occupied.");
 		}
 		gameBoard[row][col] = previewSquare;
