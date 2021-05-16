@@ -71,7 +71,7 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			for(int i = 1; i < 10; i++) { //initializing ComboBox of integers 1-10
 				combo.getItems().add(i);
 			}
-			combo.getSelectionModel().select(2); //set default side to 3x3
+			combo.getSelectionModel().select(4); //set default side to 5x5
 			combo.setOnAction(this); //handle method setup
 			
 			label = new Label();
