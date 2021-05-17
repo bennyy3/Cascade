@@ -1,13 +1,25 @@
+/**
+ * @author Ben Anderson
+ * @author Isaac Kubas
+ * @version Spring 2021
+ * 
+ * Model Class of Cascade project
+ */
 package cascade;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class CascadeModel {
+	/** 2D Array storing current game state */
 	private Square[][] gameBoard;
+	/** Current board size */
 	private int boardSize;
+	/** Next square to be placed */
 	private Square previewSquare;
+	/** Stores the player whose current turn it is */
 	Player currentTurn = Player.PLAYER1;
+	/** PropertyChangeSupport attribute to support the PropertyChangeListener interface */
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	/**
@@ -21,6 +33,11 @@ public class CascadeModel {
 		this.previewSquare = new Square(Player.PLAYER1);
 	}
 
+	/**
+	 * Counts the number of spaces owned by a player
+	 * @param player owning the spaces
+	 * @return number of spaces owned
+	 */
 	private int countSpaces(Player player) {
 		int playerSpaces = 0; // count of how many spaces are owned
 		for (int row = 0; row < boardSize; row++) {
@@ -32,13 +49,11 @@ public class CascadeModel {
 		return playerSpaces;
 	}
 
+	/**
+	 * Checks if the game is over
+	 * @return true if the game is over, false otherwise
+	 */
 	public boolean isGameOver() {
-		/**
-		 * int p1Spaces = 0; int p2Spaces = 0; for(int r = 0; r < gameBoard.length; r++)
-		 * { for(int c = 0; c < gameBoard[0].length; c++) {
-		 * if(gameBoard[r][c].getOwner() == Player.PLAYER1) p1Spaces++; else
-		 * if(gameBoard[r][c].getOwner() == Player.PLAYER2) p2Spaces++; } }
-		 */
 		int p1Spaces = countSpaces(Player.PLAYER1);
 		int p2Spaces = countSpaces(Player.PLAYER2);
 		if (p1Spaces + p2Spaces == boardSize * boardSize) {
@@ -54,6 +69,10 @@ public class CascadeModel {
 		return false;
 	}
 
+	/**
+	 * Gets the current message to be displayed to the user
+	 * @return string containing the message to be displayed
+	 */
 	public String getGameMessage() {
 		String temp = "";
 		if (isGameOver()) {
@@ -73,7 +92,11 @@ public class CascadeModel {
 		temp += "Score:\nPlayer 1: " + countSpaces(Player.PLAYER1) + "\nPlayer 2: " + countSpaces(Player.PLAYER2);
 		return temp;
 	}
-
+	
+	/**
+	 * Initializes a new board of a given size
+	 * @param boardSize Size of the board to be created
+	 */
 	public void updateBoardSize(int boardSize) {
 		for (int r = 0; r < boardSize; r++) {
 			for (int c = 0; c < boardSize; c++) {
@@ -85,31 +108,53 @@ public class CascadeModel {
 		previewSquare = new Square(currentTurn);
 		this.pcs.firePropertyChange("size", null, null);
 	}
-
+	
+	/**
+	 * Resets the current game
+	 */
 	public void reset() {
 		currentTurn = Player.PLAYER1;
 		previewSquare = new Square(currentTurn);
 		updateBoardSize(boardSize);
 	}
-
+	
+	/**
+	 * Adds a property change listener to the model
+	 * @param listener PropertyChangeListener to be added
+	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.pcs.addPropertyChangeListener(listener);
 	}
-
+	
+	/**
+	 * Removed a property change listener to the model
+	 * @param listener PropertyChangeListener to be removed
+	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		this.pcs.removePropertyChangeListener(listener);
 	}
-
+	
+	/**
+	 * Rotates the next square clockwise
+	 */
 	public void rotateNextCW() {
 		previewSquare.rotateCW();
 		pcs.firePropertyChange("rotate", null, null);
 	}
-
+	
+	/**
+	 * Rotates the next square counterclockwise
+	 */
 	public void rotateNextCCW() {
 		previewSquare.rotateCCW();
 		pcs.firePropertyChange("rotate", null, null);
 	}
-
+	
+	/**
+	 * Places the current square at a given position
+	 * @param row to be placed at
+	 * @param col to be placed at
+	 */
 	public void place(int row, int col) {
 		//check to see if the game is over
 		if(isGameOver()) {
@@ -125,26 +170,48 @@ public class CascadeModel {
 		cascade(row, col);
 		pcs.firePropertyChange("placed", null, null);
 	}
-
+	
+	/**
+	 * Gets the current size of the board
+	 * @return current board size
+	 */
 	public int getSize() {
 		return this.boardSize;
 	}
-
+	
+	/**
+	 * Gets a square at a given position from the game board.
+	 * @param row to get square from
+	 * @param col to get square from
+	 * @return Square at the given position
+	 */
 	public Square getSquare(int row, int col) {
 		return gameBoard[row][col];
 	}
-
+	
+	/**
+	 * Gets the next square to be placed
+	 * @return previewSquare
+	 */
 	public Square getPreviewSquare() {
 		return this.previewSquare;
 	}
-
+	
+	/**
+	 * Flips the current player to be the oppositite
+	 */
 	public void flipTurn() {
 		if (currentTurn == Player.PLAYER1)
 			currentTurn = Player.PLAYER2;
 		else if (currentTurn == Player.PLAYER2)
 			currentTurn = Player.PLAYER1;
 	}
-
+	
+	/**
+	 * Cascade method which handles cascading when a square is placed
+	 * @param row of the square which was placed
+	 * @param col of the square which was placed
+	 */
 	public void cascade(int row, int col) {
 		Square cur = gameBoard[row][col];
 		boolean[] directions = cur.getDirections();

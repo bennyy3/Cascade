@@ -1,6 +1,6 @@
 /**
  * @author Ben Anderson
- * @author Isacc Kubas
+ * @author Isaac Kubas
  * @version Spring 2021
  * 
  * View Class of Cascade project
@@ -87,13 +87,6 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 			grid.setHgap(5); //Adding space between spaces
 			grid.setVgap(5);
 			buttonGrid = new Button[10][10]; //10x10 will be max size of grid
-			for(int row = 0; row < 9; row++) { //loop through the grid and initialize each button
-				for(int col = 0; col < 9; col++) {
-					buttonGrid[row][col] = new Button();
-					buttonGrid[row][col].setPrefSize(100, 100);
-					buttonGrid[row][col].setOnAction(this);
-				}
-			}
 			setGrid(5); //initialize grid size to 5
 			updateGrid(); //draw board
 			updatePreviewSquare();
@@ -266,6 +259,13 @@ public class CascadeView extends Application implements PropertyChangeListener, 
 	 * @param size: the new size of the grid to be set
 	 */
 	private void setGrid(int size) {
+		for(int row = 0; row < size; row++) { //loop through the grid and initialize each button
+			for(int col = 0; col < size; col++) {
+				buttonGrid[row][col] = new Button();
+				buttonGrid[row][col].setPrefSize(100, 100);
+				buttonGrid[row][col].setOnAction(this);
+			}
+		}
 		grid.getChildren().clear(); //different from model clear
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
